@@ -1,0 +1,22 @@
+﻿# ===== Backend (Java / Spring Boot / Maven) =====
+Backend/target/
+
+# ===== Frontend (Node / Vite / React) =====
+Frontend/node_modules/
+Frontend/dist/
+Frontend/dist-ssr/
+Frontend/*.local
+
+# ===== IDEs =====
+.idea/
+*.iml
+.vscode/
+
+# ===== Sistema operacional =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs e variaveis de ambiente =====
+*.log
+.env
+.env.local
