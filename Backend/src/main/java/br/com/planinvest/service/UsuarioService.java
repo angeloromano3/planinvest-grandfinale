@@ -1,5 +1,6 @@
 package br.com.planinvest.service;
 
+import br.com.planinvest.exception.RecursoNaoEncontradoException;
 import br.com.planinvest.model.Usuario;
 import br.com.planinvest.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,17 @@ public class UsuarioService {
     }
 
     public Usuario atualizar(Long id, Usuario usuario) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Usuário não encontrado com id: " + id);
+        }
         usuario.setIdUsuario(id);
         return usuarioRepository.save(usuario);
     }
 
     public void deletar(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Usuário não encontrado com id: " + id);
+        }
         usuarioRepository.deleteById(id);
     }
 }

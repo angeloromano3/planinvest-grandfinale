@@ -1,5 +1,6 @@
 package br.com.planinvest.service;
 
+import br.com.planinvest.exception.RecursoNaoEncontradoException;
 import br.com.planinvest.model.Conta;
 import br.com.planinvest.repository.ContaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,17 @@ public class ContaService {
     }
 
     public Conta atualizar(Long id, Conta conta) {
+        if (!contaRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Conta não encontrada com id: " + id);
+        }
         conta.setIdConta(id);
         return contaRepository.save(conta);
     }
 
     public void deletar(Long id) {
+        if (!contaRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Conta não encontrada com id: " + id);
+        }
         contaRepository.deleteById(id);
     }
 }

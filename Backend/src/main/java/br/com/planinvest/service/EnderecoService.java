@@ -1,5 +1,6 @@
 package br.com.planinvest.service;
 
+import br.com.planinvest.exception.RecursoNaoEncontradoException;
 import br.com.planinvest.model.Endereco;
 import br.com.planinvest.repository.EnderecoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,17 @@ public class EnderecoService {
     }
 
     public Endereco atualizar(Long id, Endereco endereco) {
+        if (!enderecoRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Endereço não encontrado com id: " + id);
+        }
         endereco.setIdEndereco(id);
         return enderecoRepository.save(endereco);
     }
 
     public void deletar(Long id) {
+        if (!enderecoRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Endereço não encontrado com id: " + id);
+        }
         enderecoRepository.deleteById(id);
     }
 }

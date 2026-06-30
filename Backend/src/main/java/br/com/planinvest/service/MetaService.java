@@ -1,5 +1,6 @@
 package br.com.planinvest.service;
 
+import br.com.planinvest.exception.RecursoNaoEncontradoException;
 import br.com.planinvest.model.Meta;
 import br.com.planinvest.repository.MetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,17 @@ public class MetaService {
     }
 
     public Meta atualizar(Long id, Meta meta) {
+        if (!metaRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Meta não encontrada com id: " + id);
+        }
         meta.setIdMeta(id);
         return metaRepository.save(meta);
     }
 
     public void deletar(Long id) {
+        if (!metaRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Meta não encontrada com id: " + id);
+        }
         metaRepository.deleteById(id);
     }
-}
+}    
