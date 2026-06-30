@@ -1,18 +1,32 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email === 'admin@planinvest.com' && senha === 'admin123') {
+    setErro('');
+    setCarregando(true);
+
+    try {
+      const resposta = await api.post('/auth/login', { email, senha });
       localStorage.setItem('logado', 'true');
+      localStorage.setItem('usuario', JSON.stringify(resposta.data));
       navigate('/');
-    } else {
-      alert('Credenciais inválidas!');
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        setErro('Email ou senha inválidos.');
+      } else {
+        setErro('Erro ao conectar com o servidor. Tente novamente.');
+      }
+    } finally {
+      setCarregando(false);
     }
   };
 
@@ -28,7 +42,10 @@ function Login() {
           <label>Senha:</label>
           <input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} required />
         </div>
-        <button type="submit">Entrar</button>
+        {erro && <p style={{ color: 'red' }}>{erro}</p>}
+        <button type="submit" disabled={carregando}>
+          {carregando ? 'Entrando...' : 'Entrar'}
+        </button>
       </form>
     </div>
   );
