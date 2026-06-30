@@ -10,6 +10,9 @@ function ContaForm() {
     sgMoeda: 'BRL', valSaldoInicial: '', stAtiva: 'S',
     dtCriacao: '', usuarioIdUsuario: ''
   });
+  const [salvando, setSalvando] = useState(false);
+  const [erro, setErro] = useState('');
+  const [sucesso, setSucesso] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -17,18 +20,31 @@ function ContaForm() {
     }
   }, [id]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (id) {
-      api.put(`/contas/${id}`, form).then(() => navigate('/contas'));
-    } else {
-      api.post('/contas', form).then(() => navigate('/contas'));
+    setErro('');
+    setSucesso('');
+    setSalvando(true);
+
+    try {
+      if (id) {
+        await api.put(`/contas/${id}`, form);
+      } else {
+        await api.post('/contas', form);
+      }
+      setSucesso('Conta salva com sucesso!');
+      setTimeout(() => navigate('/contas'), 1000);
+    } catch (err) {
+      setErro('Não foi possível salvar a conta. Verifique os dados e tente novamente.');
+      setSalvando(false);
     }
   };
 
   return (
     <div>
       <h1>{id ? 'Editar' : 'Nova'} Conta</h1>
+      {erro && <p style={{ color: 'red' }}>{erro}</p>}
+      {sucesso && <p style={{ color: 'green' }}>{sucesso}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Nome:</label>
@@ -58,7 +74,9 @@ function ContaForm() {
           <label>ID do Usuário:</label>
           <input type="number" value={form.usuarioIdUsuario} onChange={e => setForm({...form, usuarioIdUsuario: e.target.value})} required />
         </div>
-        <button type="submit">Salvar</button>
+        <button type="submit" disabled={salvando}>
+          {salvando ? 'Salvando...' : 'Salvar'}
+        </button>
         <button type="button" onClick={() => navigate('/contas')}>Cancelar</button>
       </form>
     </div>
