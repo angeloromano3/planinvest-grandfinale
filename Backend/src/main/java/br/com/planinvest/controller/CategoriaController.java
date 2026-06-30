@@ -23,11 +23,7 @@ public class CategoriaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> buscarPorId(@PathVariable Long id) {
-        Categoria categoria = categoriaService.buscarPorId(id);
-        if (categoria == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(categoria);
+        return ResponseEntity.ok(categoriaService.buscarPorId(id));
     }
 
     @PostMapping

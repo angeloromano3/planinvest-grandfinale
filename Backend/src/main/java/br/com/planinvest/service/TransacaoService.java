@@ -19,7 +19,8 @@ public class TransacaoService {
     }
 
     public Transacao buscarPorId(Long id) {
-        return transacaoRepository.findById(id).orElse(null);
+        return transacaoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Transação não encontrada com id: " + id));
     }
 
     public Transacao salvar(Transacao transacao) {

@@ -19,7 +19,8 @@ public class MetaService {
     }
 
     public Meta buscarPorId(Long id) {
-        return metaRepository.findById(id).orElse(null);
+        return metaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Meta não encontrada com id: " + id));
     }
 
     public Meta salvar(Meta meta) {
@@ -40,4 +41,4 @@ public class MetaService {
         }
         metaRepository.deleteById(id);
     }
-}    
+}

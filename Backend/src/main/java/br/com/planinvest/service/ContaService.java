@@ -19,7 +19,8 @@ public class ContaService {
     }
 
     public Conta buscarPorId(Long id) {
-        return contaRepository.findById(id).orElse(null);
+        return contaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Conta não encontrada com id: " + id));
     }
 
     public Conta salvar(Conta conta) {

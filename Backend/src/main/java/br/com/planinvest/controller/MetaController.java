@@ -23,9 +23,7 @@ public class MetaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Meta> buscarPorId(@PathVariable Long id) {
-        Meta meta = metaService.buscarPorId(id);
-        if (meta == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(meta);
+        return ResponseEntity.ok(metaService.buscarPorId(id));
     }
 
     @PostMapping

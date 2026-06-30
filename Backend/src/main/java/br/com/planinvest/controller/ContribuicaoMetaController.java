@@ -23,9 +23,7 @@ public class ContribuicaoMetaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ContribuicaoMeta> buscarPorId(@PathVariable Long id) {
-        ContribuicaoMeta contribuicaoMeta = contribuicaoMetaService.buscarPorId(id);
-        if (contribuicaoMeta == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(contribuicaoMeta);
+        return ResponseEntity.ok(contribuicaoMetaService.buscarPorId(id));
     }
 
     @PostMapping

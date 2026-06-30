@@ -23,9 +23,7 @@ public class TransacaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Transacao> buscarPorId(@PathVariable Long id) {
-        Transacao transacao = transacaoService.buscarPorId(id);
-        if (transacao == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(transacao);
+        return ResponseEntity.ok(transacaoService.buscarPorId(id));
     }
 
     @PostMapping

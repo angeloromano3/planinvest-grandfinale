@@ -19,7 +19,8 @@ public class EnderecoService {
     }
 
     public Endereco buscarPorId(Long id) {
-        return enderecoRepository.findById(id).orElse(null);
+        return enderecoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Endereço não encontrado com id: " + id));
     }
 
     public Endereco salvar(Endereco endereco) {

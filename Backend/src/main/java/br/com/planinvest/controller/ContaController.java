@@ -23,11 +23,7 @@ public class ContaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Conta> buscarPorId(@PathVariable Long id) {
-        Conta conta = contaService.buscarPorId(id);
-        if (conta == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(conta);
+        return ResponseEntity.ok(contaService.buscarPorId(id));
     }
 
     @PostMapping

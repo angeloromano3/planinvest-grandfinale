@@ -19,7 +19,8 @@ public class ContribuicaoMetaService {
     }
 
     public ContribuicaoMeta buscarPorId(Long id) {
-        return contribuicaoMetaRepository.findById(id).orElse(null);
+        return contribuicaoMetaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Contribuição não encontrada com id: " + id));
     }
 
     public ContribuicaoMeta salvar(ContribuicaoMeta contribuicaoMeta) {
